@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./asset/css/lux.css">
+  <link rel="stylesheet" href="./asset/css/style.css">
+  <link rel="stylesheet" href="./asset/css/base.css">
+  <title>VOIRANIME - Accueil</title>
+</head>
+
+<body>
+  <nav>
+    <!-- Barre de navigation statique -->
+    <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+      <div class="container-fluid">
+        <a class="navbar-brand" id="titre" href="./index.html">VoirAnime</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+          aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="./index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./Pages/mon-profil.html">Mon Profil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./Pages/ma-collection.html">Ma Collection</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./Pages/inscription.html">Inscription</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./Pages/connexion.html">Connexion</a>
+            </li>
+          </ul>
+          <form class="d-flex" onsubmit="searchAnime(event)">
+            <input id="search-text" class="form-control bg-transparent text-white me-2" type="search" placeholder="Search"
+              autocomplete="off">
+            <button id="btn" class="btn rounded-3" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!-- Fin de la barre de navigation -->
+  </nav>
+
+  <div class="d-flex justify-content-center mt-5">
+    <div id="carouselWithControls" class="carousel slide pointer-event" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://static.crunchyroll.com/fms/landscape_poster/960x540/100/png/4eb8686c-7ed6-4514-8f47-1145cd5cacab.webp" class="d-block w-100" alt="Slide 1">
+        </div>
+        <div class="carousel-item">
+          <img src="https://static.crunchyroll.com/fms/landscape_poster/960x540/100/png/60e81b04-545e-4faa-83ab-27dcf788986a.webp" class="d-block w-100" alt="Slide 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://static.crunchyroll.com/fms/landscape_poster/960x540/100/png/7ec2c6f5-59d2-495f-b79c-a4fe104a8348.webp" class="d-block w-100" alt="Slide 3">
+        </div>
+        <div class="carousel-item">
+          <img src="https://static.crunchyroll.com/fms/landscape_poster/960x540/100/png/610f885a-1215-430f-817a-342584954416.webp" class="d-block w-100" alt="Slide 4">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselWithControls" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselWithControls" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="big3" class="wrapper mt-5 center-container">
+    <h2><strong>Le big three</strong></h2>
+    <p class="text-white">Le Big 3 (également orthographié Big Three) est une expression employée pour décrire les
+      trois séries de manga les plus popudlaires à l'époque de leur âge d'or, au milieu des années 2000, à savoir One
+      Piece, Naruto et Bleach. Ce surnom leur a été attribué en raison de leur immense notoriété planétaire et de
+      leur longueur qui a permis de combler le vide laissé par la fin de parution de Dragon Ball et de Slam Dunk.
+      Elles ont systématiquement figuré en tête des couvertures partagées du magazine Weekly Shonen Jump et ont
+      largement contribué à relancer les ventes de ce dernier. Leurs héros sont leur mascotte attitrée : Luffy pour
+      One Piece, Ichigo pour Bleach et Naruto pour l'œuvre du même nom.</p>
+
+    <div class="cards" id="big3-cards">
+      <!-- Les big 3 animes seront affichés ici -->
+    </div>
+  </div>
+
+  <div class="wrapper center-container">
+    <h2><strong>All Animes</strong></h2>
+    <div class="cards" id="all-anime-cards">
+      <!-- Tous les animes seront affichés ici -->
+    </div>
+  </div>
+
+  <script>
+    // Simulation des données de la base de données
+    const animes = [
+      // Ajoutez ici vos données d'anime
+      { id: 1, img: 'anime1.jpg', titre: 'Anime 1', description: 'Description de l\'anime 1' },
+      { id: 2, img: 'anime2.jpg', titre: 'Anime 2', description: 'Description de l\'anime 2' },
+      // Ajoutez d'autres animes ici
+    ];
+
+    const bigs3 = [
+      { id: 1, img: 'anime1.jpg', titre: 'Anime 1' },
+      { id: 48, img: 'anime48.jpg', titre: 'Anime 48' },
+      { id: 49, img: 'anime49.jpg', titre: 'Anime 49' },
+    ];
+
+    // Stocker les données dans localStorage
+    localStorage.setItem('animes', JSON.stringify(animes));
+    localStorage.setItem('bigs3', JSON.stringify(bigs3));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const big3Cards = document.getElementById('big3-cards');
+      const allAnimeCards = document.getElementById('all-anime-cards');
+
+      // Afficher les big 3 animes
+      bigs3.forEach(anime => {
+        const card = document.createElement('a');
+        card.href = `showAnime.html?id_anime=${anime.id}`;
+        card.innerHTML = `
+          <figure class="card">
+            <img src="./asset/img/${anime.img}" alt="${anime.titre}" />
+          </figure>
+        `;
+        big3Cards.appendChild(card);
+      });
+
+      // Afficher tous les animes
+      animes.forEach(anime => {
+        const card = document.createElement('a');
+        card.href = `showAnime.html?id_anime=${anime.id}`;
+        card.innerHTML = `
+          <figure class="card">
+            <img src="./asset/img/${anime.img}" alt="${anime.titre}" />
+          </figure>
+        `;
+        allAnimeCards.appendChild(card);
+      });
+    });
+
+    function searchAnime(event) {
+      event.preventDefault();
+      const searchText = document.getElementById('search-text').value.toLowerCase();
+      const filteredAnimes = animes.filter(anime => anime.titre.toLowerCase().includes(searchText));
+      const allAnimeCards = document.getElementById('all-anime-cards');
+
+      // Vider les cartes existantes
+      allAnimeCards.innerHTML = '';
+
+      // Afficher les animes filtrés
+      filteredAnimes.forEach(anime => {
+        const card = document.createElement('a');
+        card.href = `showAnime.html?id_anime=${anime.id}`;
+        card.innerHTML = `
+          <figure class="card">
+            <img src="./asset/img/${anime.img}" alt="${anime.titre}" />
+          </figure>
+        `;
+        allAnimeCards.appendChild(card);
+      });
+    }
+  </script>

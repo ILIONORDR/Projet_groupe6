@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../asset/css/lux.css">
+    <link rel="stylesheet" href="../asset/css/inscri.css">
+    <title>VOIRANIME - Inscription</title>
+</head>
+
+<body>
+    <nav>
+        <!-- Barre de navigation statique -->
+        <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+          <div class="container-fluid">
+            <a class="navbar-brand" id="titre" href="./index.html">VoirAnime</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+              aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+              <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="./index.html">Accueil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/mon-profil.html">Mon Profil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/ma-collection.html">Ma Collection</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/inscription.html">Inscription</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/connexion.html">Connexion</a>
+                </li>
+              </ul>
+              <form class="d-flex" onsubmit="searchAnime(event)">
+                <input id="search-text" class="form-control bg-transparent text-white me-2" type="search" placeholder="Search" autocomplete="off">
+                <button id="btn" class="btn rounded-3" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </nav>
+        <!-- Fin de la barre de navigation -->
+      </nav>
+
+    <div class="container text-white d-flex justify-content-center mt-5">
+        <form action="inscription.php" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <div class="form-group p-1">
+                    <input type="text" class="form-control rounded-3 bg-transparent text-white border-bottom-2" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
+                </div>
+                <hr>
+                <div class="form-group p-1">
+                    <input type="email" class="form-control rounded-3 bg-transparent text-white border-bottom-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email" autocomplete="off">
+                </div>
+                <hr>
+                <div class="form-group p-1">
+                    <input type="password" class="form-control rounded-3 bg-transparent text-white border-bottom-2" id="exampleInputPassword1" placeholder="Mot de passe" name="pdw" autocomplete="off">
+                </div>
+                <hr>
+                <div class="form-group p-1">
+                    <input class="form-control rounded-3 bg-transparent text-white border-bottom-2" type="file" id="fileToUpload" name="img">
+                    <small class="form-text text-muted">Selectionnez une image de profil</small>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-center p-1 ">
+                    <button type="submit" id="btn" class="btn rounded-3 w-75" name="submit">Crée un compte</button>
+                </div>
+                <p>Vous avez déjà un compte ? <a href="./connexion.html" style="color:RGB(244, 117, 33);">Se connecter</a></p>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+
+</html>

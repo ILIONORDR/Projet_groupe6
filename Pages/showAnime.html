@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../asset/css/lux.css">
+    <link rel="stylesheet" href="./../asset/css/style.css">
+    <link rel="stylesheet" href="./../asset/css/base.css">
+    <title>VOIRANIME - Anime Détails</title>
+</head>
+<body>
+  <nav>
+      <!-- Barre de navigation statique -->
+      <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+        <div class="container-fluid">
+          <a class="navbar-brand" id="titre" href="./index.html">VoirAnime</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="./index.html">Accueil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./Pages/mon-profil.html">Mon Profil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./Pages/ma-collection.html">Ma Collection</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./Pages/inscription.html">Inscription</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./Pages/connexion.html">Connexion</a>
+              </li>
+            </ul>
+            <form class="d-flex" onsubmit="searchAnime(event)">
+              <input id="search-text" class="form-control bg-transparent text-white me-2" type="search" placeholder="Search" autocomplete="off">
+              <button id="btn" class="btn rounded-3" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <!-- Fin de la barre de navigation -->
+    </nav>
+
+    <div class="container">
+        <div id="anime-details" class='p-3 mt-5 text-white'>
+            <!-- Détails de l'anime affichés ici -->
+        </div>
+        <button id="favorite-button" class="btn btn-primary"></button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const animeId = urlParams.get('id_anime');
+
+            if (!animeId) {
+                alert('Aucun anime spécifié.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const animes = JSON.parse(localStorage.getItem('animes')) || [];
+            const anime = animes.find(a => a.id === animeId);
+
+            if (anime) {
+                const animeDetails = document.getElementById('anime-details');
+                animeDetails.innerHTML = `
+                    <h1>${anime.titre}</h1>
+                    <img src="${anime.img}" alt="${anime.titre}">
+                    <p>${anime.description}</p>
+                `;
+
+                const favoriteButton = document.getElementById('favorite-button');
+                const userId = localStorage.getItem('currentUserId');
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(user => user.id === userId);
+
+                if (user && user.favorites.some(fav => fav.id === animeId)) {
+                    favoriteButton.textContent = 'Retirer des favoris';
+                    favoriteButton.onclick = () => removeFavorite(animeId);
+                } else {
+                    favoriteButton.textContent = 'Ajouter aux favoris';
+                    favoriteButton.onclick = () => addFavorite(anime);
+                }
+            }
+        });
+
+        function addFavorite(anime) {
+            const userId = localStorage.getItem('currentUserId');
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(user => user.id === userId);
+
+            if (userIndex !== -1) {
+                users[userIndex].favorites.push(anime);
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Ajouté aux favoris!');
+                location.reload();
+            }
+        }
+
+        function removeFavorite(animeId) {
+            const userId = localStorage.getItem('currentUserId');
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(user => user.id === userId);
+
+            if (userIndex !== -1) {
+                users[userIndex].favorites = users[userIndex].favorites.filter(fav => fav.id !== animeId);
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Retiré des favoris!');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

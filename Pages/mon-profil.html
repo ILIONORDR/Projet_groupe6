@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../asset/css/lux.css">
+    <link rel="stylesheet" href="./../asset/css/style.css">
+    <link rel="stylesheet" href="./../asset/css/base.css">
+    <title>VOIRANIME - Mon Profil</title>
+</head>
+<body>
+    <nav>
+        <!-- Barre de navigation statique -->
+        <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+          <div class="container-fluid">
+            <a class="navbar-brand" id="titre" href="./index.html">VoirAnime</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+              aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+              <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="./index.html">Accueil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/mon-profil.html">Mon Profil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/ma-collection.html">Ma Collection</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/inscription.html">Inscription</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./Pages/connexion.html">Connexion</a>
+                </li>
+              </ul>
+              <form class="d-flex" onsubmit="searchAnime(event)">
+                <input id="search-text" class="form-control bg-transparent text-white me-2" type="search" placeholder="Search" autocomplete="off">
+                <button id="btn" class="btn rounded-3" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </nav>
+        <!-- Fin de la barre de navigation -->
+      </nav>
+
+    <div class="wrapper">
+        <h2><strong>Mon profil</strong></h2>
+        <div class="container mt-5" id="profile-container">
+            <!-- Profil utilisateur affiché ici -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('currentUserId');
+            if (!userId) {
+                alert('Vous devez être connecté pour voir cette page.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(user => user.id === userId);
+
+            if (user) {
+                const profileContainer = document.getElementById('profile-container');
+                profileContainer.innerHTML = `
+                    <div class="d-flex">
+                        <img src="${user.img_profil}" width="150" class="rounded-circle border border-2">
+                        <div class="d-flex align-items-center ms-3">
+                            <h4 class="text-white">${user.username}</h4>
+                        </div>
+                    </div>
+                    <div class="mt-5" id="coucou">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#email" aria-selected="true" role="tab">Changer l'adresse e-mail</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" href="#mdp" aria-selected="false" role="tab" tabindex="-1">Changer le mot de passe</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" href="#supprimer" aria-selected="false" role="tab" tabindex="-1">Supprimer mon profil</a>
+                            </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade active show" id="email" role="tabpanel">
+                                <div class="m-3">
+                                    <small class="text-white">Adresse e-mail actuelle</small>
+                                    <p>${user.email}</p>
+                                </div>
+                                <form onsubmit="changeEmail(event)">
+                                    <fieldset>
+                                        <div class="form-group p-3">
+                                            <input type="email" class="form-control bg-transparent border border-2 w-25" id="new-email">
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-end p-3">
+                                            <button type="submit" class="btn btn-primary">Changer</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="mdp" role="tabpanel">
+                                <!-- Changer le mot de passe -->
+                            </div>
+                            <div class="tab-pane fade" id="supprimer" role="tabpanel">
+                                <button class="btn btn-danger" onclick="deleteProfile()">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        function changeEmail(event) {
+            event.preventDefault();
+            const userId = localStorage.getItem('currentUserId');
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(user => user.id === userId);
+
+            if (userIndex !== -1) {
+                const newEmail = document.getElementById('new-email').value;
+                users[userIndex].email = newEmail;
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Adresse e-mail mise à jour avec succès!');
+                location.reload();
+            }
+        }
+
+        function deleteProfile() {
+            const userId = localStorage.getItem('currentUserId');
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            users = users.filter(user => user.id !== userId);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.removeItem('currentUserId');
+            alert('Profil supprimé avec succès!');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

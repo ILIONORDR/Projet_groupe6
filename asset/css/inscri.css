@@ -1,0 +1,11 @@
+body {
+    background-color: black;
+}
+
+#nav, #btn{
+    background-color: RGB(35, 37, 43);
+}
+
+#titre, #btn {
+    color: RGB(244, 117, 33);
+}
